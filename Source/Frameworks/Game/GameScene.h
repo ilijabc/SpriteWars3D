@@ -32,6 +32,7 @@ private:
     AppClient *mGame;
 	std::list<GameObject*> mGameObjectList;
 	unsigned int mDrawFlags;
+	matrix4f mSceneMatrix;
 };
 
 #endif /* GAMESCENE_H_ */

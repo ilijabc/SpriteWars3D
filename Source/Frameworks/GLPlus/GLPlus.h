@@ -21,4 +21,15 @@
 #include "GLTexture.h"
 #include "GLView.h"
 
+#include "GLTerrain.h"
+
+void glRenderCube(float x, float y, float z);
+void glPushTexture(GLTexture *tex);
+void glPopTexture();
+void glMultMatrix(const matrix4f& mat);
+void glColor(Color c);
+void glBeginPicking(int x, int y, float sense);
+int glEndPicking();
+vector3f glGetPoint3D(int x, int y);
+
 #endif /* GLPLUS_H_ */

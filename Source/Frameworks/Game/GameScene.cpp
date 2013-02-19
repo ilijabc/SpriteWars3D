@@ -30,13 +30,14 @@ void GameScene::draw(GLView *view)
 	for (std::list<GameObject*>::iterator iobj = mGameObjectList.begin(); iobj != mGameObjectList.end(); iobj++)
 	{
 		GameObject* obj = *iobj;
-		GLFloat3 position = obj->getPosition();
-		float rotation = obj->getRotation();
-		glPushMatrix();
-		glTranslatef(position.x, position.y, position.z);
-		glRotatef(rotation, 0, 0, 1);
-		obj->onDraw(view, mDrawFlags);
-		glPopMatrix();
+		//GLFloat3 position = obj->getPosition();
+		//float rotation = obj->getRotation();
+		//glPushMatrix();
+		//glTranslatef(position.x, position.y, position.z);
+		//glRotatef(rotation, 0, 0, 1);
+		//obj->onDraw(view, mDrawFlags);
+		//glPopMatrix();
+		obj->drawObject(view, mSceneMatrix, mDrawFlags);
 	}
 }
 

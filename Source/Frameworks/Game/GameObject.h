@@ -10,25 +10,29 @@ class GameObject
 public:
 	GameObject(GameScene *scene, int type);
 	virtual ~GameObject();
+	void drawObject(GLView *view, const matrix4f &modelMatrix, unsigned int flags);
 	//events
 	virtual void onUpdate(float dt);
 	virtual void onDraw(GLView *view, unsigned int flags);
     //setters
-	inline void setPosition(const GLFloat3 &pos) { mPosition = pos; }
+	inline void setPosition(const vector3f &pos) { mPosition = pos; }
 	inline void setPosition(float x, float y, float z) { mPosition.set(x, y, z); }
-	inline void setRotation(float rot) { mRotation = rot; }
+	inline void setRotation(float rot) { mRotation.z = rot; }
 	inline void setName(const char *name) { strcpy(mName, name); }
 	//getters
     inline int getType() const { return mType; }
-    inline const GLFloat3 &getPosition() const { return mPosition; }
-    inline float getRotation() const { return mRotation; }
+    inline const vector3f &getPosition() const { return mPosition; }
+    inline const vector3f &getRotation() const { return mRotation; }
+    inline const vector3f &getScale() const { return mScale; }
     inline const char *getName() const { return mName; }
 
 private:
     GameScene *mScene;
     int mType;
-    GLFloat3 mPosition;
-    float mRotation;
+    vector3f mPosition;
+    vector3f mRotation;
+    vector3f mScale;
+    matrix4f mModelMatrix;
     char mName[250];
 };
 

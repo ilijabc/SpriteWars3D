@@ -9,6 +9,8 @@
 #define GAMECOMMON_H_
 
 #include "GLPlus/GLPlus.h"
+#include "Common/vector3.h"
+#include "Common/matrix4.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,8 +38,8 @@ inline float randf(float min, float max) { return (float)rand() / (float)RAND_MA
 
 inline void set4fv(float *pf, float x, float y, float z, float w) { pf[0]=x; pf[1]=y; pf[2]=z; pf[3]=w; }
 
-#define MIN(A, B) (((A) < (B)) ? (A) : (B))
-#define MAX(A, B) (((A) > (B)) ? (A) : (B))
+//#define MIN(A, B) (((A) < (B)) ? (A) : (B))
+//#define MAX(A, B) (((A) > (B)) ? (A) : (B))
 
 inline void parseIntColor(int color, float *vcolor)
 {

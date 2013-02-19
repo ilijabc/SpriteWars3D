@@ -3,7 +3,7 @@
 
 #include "GLTexture.h"
 #include "GLMath.h"
-#include "BMFont.h"
+#include "Utils/BMFont.h"
 #include <string>
 #include <list>
 

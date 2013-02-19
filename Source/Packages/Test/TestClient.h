@@ -31,6 +31,10 @@ public:
     virtual void onClickEvent(GUIControl *ctl);
 
 private:
+    void initGUI();
+    void initScene();
+
+private:
 	GLView *mView;
 	GLFont *mFont;
 	GameScene *mScene;
@@ -39,6 +43,8 @@ private:
 	GLFloat3 mMousePos;
 	GLFloat3 mCameraPos;
 	GUIForm *mTestForm;
+	GLCamera mCamera;
+	GLTerrain *mTerrain;
 };
 
 #endif /* TESTCLIENT_H_ */

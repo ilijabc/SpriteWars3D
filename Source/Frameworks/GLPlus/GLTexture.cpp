@@ -1,5 +1,5 @@
 #include "GLTexture.h"
-#include "stb_image.h"
+#include "Utils/stb_image.h"
 #include <GL/glu.h>
 #include <GL/glext.h>
 #include <string.h>
