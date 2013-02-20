@@ -22,7 +22,8 @@ SRC_FRAMEWORK_COMMON := \
 
 SRC_FRAMEWORK_GAME := \
     Source/Frameworks/Game/GameObject.cpp \
-    Source/Frameworks/Game/GameScene.cpp
+    Source/Frameworks/Game/GameScene.cpp \
+    Source/Frameworks/Game/GameTerrain.cpp
 
 SRC_FRAMEWORK_GLPLUS := \
     Source/Frameworks/GLPlus/Utils/BMFont.cpp \

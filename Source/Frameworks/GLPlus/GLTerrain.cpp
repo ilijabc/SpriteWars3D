@@ -91,9 +91,9 @@ void GLTerrain::addColor(float x, float y, float bsize, float rr, float gg, floa
         if (r <= 1 && r >= 0)
         {
         	Color& cc = mVertexMap[i][j].color;
-            cc.R = CLAMP(cc.R + (r * rr * 255), 0, 255);
-            cc.G = CLAMP(cc.G + (r * gg * 255), 0, 255);
-            cc.B = CLAMP(cc.B + (r * bb * 255), 0, 255);
+            cc.red = CLAMP(cc.red + (r * rr * 255), 0, 255);
+            cc.green = CLAMP(cc.green + (r * gg * 255), 0, 255);
+            cc.blue = CLAMP(cc.blue + (r * bb * 255), 0, 255);
         }
     }
 }
@@ -158,22 +158,22 @@ void GLTerrain::render()
 			if (mFaceMap[tx][ty].flags != 1)
 			{
 				//A
-				//glColor(m_VertexMap[tx][ty].color);
+				glColor4fv(mVertexMap[tx][ty].color.getPtr());
 				glNormal3fv(mVertexMap[tx][ty].normal.getPtr());
 				glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.AA.y);
 				glVertex3f(tx, ty, mVertexMap[tx][ty].height);
 				//B
-				//glColor(m_VertexMap[tx+1][ty].color);
+				glColor4fv(mVertexMap[tx+1][ty].color.getPtr());
 				glNormal3fv(mVertexMap[tx+1][ty].normal.getPtr());
 				glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.AA.y);
 				glVertex3f(tx+1, ty, mVertexMap[tx+1][ty].height);
 				//C
-				//glColor(m_VertexMap[tx+1][ty+1].color);
+				glColor4fv(mVertexMap[tx+1][ty+1].color.getPtr());
 				glNormal3fv(mVertexMap[tx+1][ty+1].normal.getPtr());
 				glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.BB.y);
 				glVertex3f(tx+1, ty+1, mVertexMap[tx+1][ty+1].height);
 				//D
-				//glColor(m_VertexMap[tx][ty+1].color);
+				glColor4fv(mVertexMap[tx][ty+1].color.getPtr());
 				glNormal3fv(mVertexMap[tx][ty+1].normal.getPtr());
 				glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.BB.y);
 				glVertex3f(tx, ty+1, mVertexMap[tx][ty+1].height);

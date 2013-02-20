@@ -10,6 +10,7 @@
 
 #include "GameCommon.h"
 #include "GameObject.h"
+#include "GameTerrain.h"
 #include "App/AppClient.h"
 
 class GameScene
@@ -33,6 +34,7 @@ private:
 	std::list<GameObject*> mGameObjectList;
 	unsigned int mDrawFlags;
 	matrix4f mSceneMatrix;
+	GameTerrain *mTerrain;
 };
 
 #endif /* GAMESCENE_H_ */

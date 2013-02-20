@@ -7,26 +7,20 @@
 
 struct Color
 {
-	Color()							{ R = 0; G = 0; B = 0; A = 255; }
-	Color(u8 r, u8 g, u8 b)			{ R = r; G = g; B = b; A = 255; }
-	Color(u8 a, u8 r, u8 g, u8 b)	{ R = r; G = g; B = b; A = a; }
-	Color(const Color& c)			{ R = c.R; G = c.G; B = c.B; A = c.A; }
-	Color(u32 c)
-	{
-		A = c >> 24;
-		R = (c >> 16) & 0xFF;
-		G = (c >> 8) & 0xFF;
-		B = c & 0xFF;
-	};
+	float red;
+	float green;
+	float blue;
+	float alpha;
 
-	inline f32 getRf() const { return (f32)R / 255.0f; }
-	inline f32 getGf() const { return (f32)G / 255.0f; }
-	inline f32 getBf() const { return (f32)B / 255.0f; }
-	inline f32 getAf() const { return (f32)A / 255.0f; }
+	Color() : red(0.0f), green(0.0f), blue(0.0f), alpha(1.0f) { }
+	Color(float r, float g, float b) : red(r), green(g), blue(b), alpha(1.0f) { }
+	Color(float r, float g, float b, float a) : red(r), green(g), blue(b), alpha(a) { }
+	Color(unsigned int argb) { setHexColor(argb); }
 
-	u8 R, G, B, A;
+	inline float* getPtr() { return &red; }
 
-	void addBrightness(s32 x);
+	void setHexColor(unsigned int argb);
+	void addBrightness(int brightness);
 
 	//common colors
 	static Color Transparent;

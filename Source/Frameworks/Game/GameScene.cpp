@@ -11,10 +11,12 @@ GameScene::GameScene(AppClient *game)
 		: mGame(game)
 		, mDrawFlags(0xFFFFFFFF)
 {
+	mTerrain = new GameTerrain();
 }
 
 GameScene::~GameScene()
 {
+	delete mTerrain;
 }
 
 void GameScene::update(float dt)
@@ -27,6 +29,7 @@ void GameScene::update(float dt)
 
 void GameScene::draw(GLView *view)
 {
+	mTerrain->draw();
 	for (std::list<GameObject*>::iterator iobj = mGameObjectList.begin(); iobj != mGameObjectList.end(); iobj++)
 	{
 		GameObject* obj = *iobj;

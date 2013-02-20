@@ -97,7 +97,7 @@ void TestClient::onDraw()
 	//mView->drawCube(1, 1, 1);
 	//glColor3f(0, 1, 0);
 	//mTerrain->render();
-	glColor3f(1,1,1);
+	//glColor3f(1,1,1);
 	mScene->draw(mView);
 	mView->endScene3D();
 #endif
