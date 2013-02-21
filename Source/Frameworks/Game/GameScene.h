@@ -28,6 +28,7 @@ public:
 	//getters
     inline AppClient *getGame() const { return mGame; }
     inline unsigned int getDrawFlags() const { return mDrawFlags; }
+    inline GameTerrain *getTerrain() const { return mTerrain; }
 
 private:
     AppClient *mGame;

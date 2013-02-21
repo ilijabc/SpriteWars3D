@@ -17,9 +17,11 @@ public:
 	virtual ~GameTerrain();
 
 	void draw();
+	float getHeight(float x, float y);
 
 private:
 	GLTerrain *mTerrain;
+	vector3f mPosition;
 };
 
 #endif /* GAMETERRAIN_H_ */
