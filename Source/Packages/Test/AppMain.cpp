@@ -9,7 +9,7 @@
 
 int main(int argc, char **argv)
 {
-	AppServer *server = new AppServer("Data/settings.ini");
+	AppServer *server = new AppServer("settings.ini");
 	TestClient *game = new TestClient(server);
 
 	server->run(game);

@@ -44,7 +44,7 @@ private:
 	GLFloat3 mCameraPos;
 	GUIForm *mTestForm;
 	GLCamera mCamera;
-	GLTerrain *mTerrain;
+	GLSprite *mSprite;
 };
 
 #endif /* TESTCLIENT_H_ */

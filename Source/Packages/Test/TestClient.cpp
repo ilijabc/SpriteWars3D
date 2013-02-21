@@ -25,6 +25,8 @@ TestClient::TestClient(AppServer *server)
 
 	initGUI();
 	initScene();
+
+	mSprite = new GLSprite("Modules/War2/archer.anim");
 }
 
 void TestClient::initGUI()
@@ -44,22 +46,23 @@ void TestClient::initScene()
 {
 	mScene = new GameScene(this);
 
+	vector3f obj1_pos(0, 0, 0);
+	obj1_pos.z = mScene->getTerrain()->getHeight(obj1_pos.x, obj1_pos.y);
 	GameObject *obj1 = new GameObject(mScene, 0);
-	obj1->setPosition(0, 0, 0);
+	obj1->setPosition(obj1_pos);
 	mScene->addObject(obj1);
 
+	vector3f obj2_pos(0, 0, 0);
+	obj2_pos.z = mScene->getTerrain()->getHeight(obj2_pos.x, obj2_pos.y);
 	GameObject *obj2 = new GameObject(mScene, 0);
-	obj2->setPosition(2, 2, 2);
+	obj2->setPosition(obj2_pos);
 	mScene->addObject(obj2);
-
-	mTerrain = new GLTerrain();
-	mTerrain->init(40, 40);
-	mTerrain->generate(100, 5, 10, 0, 2);
 
 }
 
 TestClient::~TestClient()
 {
+	delete mSprite;
 	delete mTestForm;
 	delete mScene;
 	delete mView;
@@ -103,6 +106,7 @@ void TestClient::onDraw()
 #endif
 	//gui
 	mView->beginGui();
+	mSprite->drawFrame(0, 0);
 	//mTestForm->draw(mView);
 	mView->endGui();
 }

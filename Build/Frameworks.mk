@@ -27,6 +27,7 @@ SRC_FRAMEWORK_GAME := \
 
 SRC_FRAMEWORK_GLPLUS := \
     Source/Frameworks/GLPlus/Utils/BMFont.cpp \
+    Source/Frameworks/GLPlus/Utils/DFSprite.cpp \
     Source/Frameworks/GLPlus/Utils/stb_image.c \
     Source/Frameworks/GLPlus/GLCamera.cpp \
     Source/Frameworks/GLPlus/GLFont.cpp \
@@ -36,6 +37,7 @@ SRC_FRAMEWORK_GLPLUS := \
     Source/Frameworks/GLPlus/GLNode.cpp \
     Source/Frameworks/GLPlus/GLParticleSystem.cpp \
     Source/Frameworks/GLPlus/GLPlus.cpp \
+    Source/Frameworks/GLPlus/GLSprite.cpp \
 	Source/Frameworks/GLPlus/GLTerrain.cpp \
     Source/Frameworks/GLPlus/GLTexture.cpp \
     Source/Frameworks/GLPlus/GLView.cpp

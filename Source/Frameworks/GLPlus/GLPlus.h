@@ -22,6 +22,7 @@
 #include "GLView.h"
 
 #include "GLTerrain.h"
+#include "GLSprite.h"
 
 void glRenderCube(float x, float y, float z);
 void glPushTexture(GLTexture *tex);
