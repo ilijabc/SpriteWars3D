@@ -31,6 +31,8 @@ void glMultMatrix(const matrix4f& mat);
 void glColor(Color c);
 void glBeginPicking(int x, int y, float sense);
 int glEndPicking();
+
 vector3f glGetPoint3D(int x, int y);
+vector2f glGetPoint2D(vector3f pos);
 
 #endif /* GLPLUS_H_ */

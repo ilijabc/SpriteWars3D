@@ -30,6 +30,7 @@ void GameScene::update(float dt)
 void GameScene::draw(GLView *view)
 {
 	mTerrain->draw();
+	mPickedPoint = glGetPoint3D(mMouseX, mMouseY);
 	for (std::list<GameObject*>::iterator iobj = mGameObjectList.begin(); iobj != mGameObjectList.end(); iobj++)
 	{
 		GameObject* obj = *iobj;

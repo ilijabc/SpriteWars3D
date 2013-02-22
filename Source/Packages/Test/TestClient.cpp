@@ -89,6 +89,7 @@ void TestClient::initScene()
 	obj2->setTexture(mTexture2);
 	mScene->addObject(obj2);
 
+	mCursorObjct = obj2;
 }
 
 TestClient::~TestClient()
@@ -102,6 +103,8 @@ TestClient::~TestClient()
 
 void TestClient::onUpdate(float dt)
 {
+	mWorldPoint = mScene->getWorldPoint(mMouseX, mMouseY);
+	mCursorObjct->setPosition(mWorldPoint);
 	mScene->update(dt);
 	mTestForm->doEvents();
 }
@@ -159,8 +162,8 @@ void TestClient::onKeyEvent(int key, int action)
 
 void TestClient::onMouseMoveEvent(int x, int y)
 {
-	float dx = x - mMousePos.x;
-	float dy = y - mMousePos.y;
+	float dx = x - mMouseX;
+	float dy = y - mMouseY;
 	if (mButtonState[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
 	{
 		float fx = mSceneSize.x / (float)mView->getWidth();
@@ -170,8 +173,8 @@ void TestClient::onMouseMoveEvent(int x, int y)
 		mCamera.rotation.z += dx;
 		mCamera.rotation.x += dy;
 	}
-	mMousePos.x = x;
-	mMousePos.y = y;
+	mMouseX = x;
+	mMouseY = y;
 	if (mTestForm)
 	{
 		mTestForm->sendMouseMove(x, y);
@@ -194,11 +197,11 @@ void TestClient::onMouseButtonEvent(int button, int press)
 
 void TestClient::onMouseWheelEvent(int wheel)
 {
-	float dz = wheel - mMousePos.z;
+	float dz = wheel - mMouseWheel;
 	mCameraPos.z -= dz * 5;
 	if (mCameraPos.z < 5)
 		mCameraPos.z = 5;
-	mMousePos.z = wheel;
+	mMouseWheel = wheel;
 	mCamera.zoom += dz;
 }
 

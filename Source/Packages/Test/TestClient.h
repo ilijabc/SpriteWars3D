@@ -41,12 +41,14 @@ private:
 	GameScene *mScene;
 	GLFloat2 mSceneSize;
 	int mButtonState[8];
-	GLFloat3 mMousePos;
+	int mMouseX, mMouseY, mMouseWheel;
 	GLFloat3 mCameraPos;
 	GUIForm *mTestForm;
 	GLCamera mCamera;
 	GLSprite *mSprite;
 	GLTexture *mTexture2;
+	vector3f mWorldPoint;
+	GameObject *mCursorObjct;
 };
 
 #endif /* TESTCLIENT_H_ */
