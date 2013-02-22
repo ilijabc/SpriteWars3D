@@ -5,6 +5,12 @@
 
 class GameScene;
 
+enum GameObjectType
+{
+	eGameObjectType = 0,
+	eGameSpriteType
+};
+
 class GameObject
 {
 public:
@@ -18,6 +24,7 @@ public:
 	inline void setPosition(const vector3f &pos) { mPosition = pos; }
 	inline void setPosition(float x, float y, float z) { mPosition.set(x, y, z); }
 	inline void setRotation(float rot) { mRotation.z = rot; }
+	inline void setScale(float scale) { mScale.set(scale, scale, scale); }
 	inline void setName(const char *name) { strcpy(mName, name); }
 	//getters
     inline int getType() const { return mType; }

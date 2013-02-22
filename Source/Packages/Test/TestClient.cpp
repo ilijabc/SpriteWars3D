@@ -8,6 +8,35 @@
 #include "TestClient.h"
 #include <GL/glfw.h>
 
+static void colorTexFilter(unsigned char *data, int w, int h, int bpp, void *param)
+{
+	//AABBGGRR
+	unsigned int in_colors[] = {
+			0xFFCC480C,
+			0xFFA02804,
+			0xFF741400,
+			0xFF4C0400
+	};
+	unsigned int out_colors[] = {
+			0xFF808080,
+			0xFF606060,
+			0xFF404040,
+			0xFF202020
+	};
+	unsigned int *pix = (unsigned int*)data;
+	unsigned int *end_pix = (unsigned int*)data + w * h;
+	while (pix < end_pix)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (*pix == in_colors[i])
+				*pix = out_colors[i];
+		}
+		pix++;
+	}
+}
+
+
 TestClient::TestClient(AppServer *server)
 		: AppClient(server)
 {
@@ -23,10 +52,11 @@ TestClient::TestClient(AppServer *server)
 	mCamera.zoom = -10;
 	//mCamera.position.set(20, 20, 0);
 
+	mSprite = new GLSprite("Modules/War2/archer.anim");
+	mTexture2 = new GLTexture(mSprite->getTexture()->getFileName(), GLPLUS_TEXTURE_NEAREST, colorTexFilter);
+
 	initGUI();
 	initScene();
-
-	mSprite = new GLSprite("Modules/War2/archer.anim");
 }
 
 void TestClient::initGUI()
@@ -46,7 +76,7 @@ void TestClient::initScene()
 {
 	mScene = new GameScene(this);
 
-	vector3f obj1_pos(0, 0, 0);
+	vector3f obj1_pos(3, 3, 0);
 	obj1_pos.z = mScene->getTerrain()->getHeight(obj1_pos.x, obj1_pos.y);
 	GameObject *obj1 = new GameObject(mScene, 0);
 	obj1->setPosition(obj1_pos);
@@ -54,14 +84,16 @@ void TestClient::initScene()
 
 	vector3f obj2_pos(0, 0, 0);
 	obj2_pos.z = mScene->getTerrain()->getHeight(obj2_pos.x, obj2_pos.y);
-	GameObject *obj2 = new GameObject(mScene, 0);
+	GameSprite *obj2 = new GameSprite(mScene);
 	obj2->setPosition(obj2_pos);
+	obj2->setTexture(mTexture2);
 	mScene->addObject(obj2);
 
 }
 
 TestClient::~TestClient()
 {
+	delete mTexture2;
 	delete mSprite;
 	delete mTestForm;
 	delete mScene;
@@ -107,9 +139,9 @@ void TestClient::onDraw()
 	//gui
 	mView->beginGui();
 	glTranslatef(100, 100, 0);
-	mSprite->drawFrame(1, 1);
+	mSprite->drawFrame(0);
 	glTranslatef(100, 0, 0);
-	mSprite->drawFrame(10);
+	mSprite->drawFrame(mTexture2, 0, 0);
 	//mTestForm->draw(mView);
 	mView->endGui();
 }

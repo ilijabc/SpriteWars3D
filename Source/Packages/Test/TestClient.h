@@ -11,6 +11,7 @@
 #include "App/AppClient.h"
 #include "App/AppServer.h"
 #include "Game/GameScene.h"
+#include "Game/GameSprite.h"
 #include "GUI/GUIForm.h"
 #include "GUI/GUIButton.h"
 #include "GUI/GUIScrollBar.h"
@@ -45,6 +46,7 @@ private:
 	GUIForm *mTestForm;
 	GLCamera mCamera;
 	GLSprite *mSprite;
+	GLTexture *mTexture2;
 };
 
 #endif /* TESTCLIENT_H_ */
