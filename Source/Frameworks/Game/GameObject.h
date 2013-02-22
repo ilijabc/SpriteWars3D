@@ -32,6 +32,7 @@ public:
     inline const vector3f &getRotation() const { return mRotation; }
     inline const vector3f &getScale() const { return mScale; }
     inline const char *getName() const { return mName; }
+    inline GameScene *getScene() const { return mScene; }
 
 private:
     GameScene *mScene;

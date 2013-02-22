@@ -12,6 +12,7 @@ GameScene::GameScene(AppClient *game)
 		, mDrawFlags(0xFFFFFFFF)
 {
 	mTerrain = new GameTerrain();
+	mCamera.zoom = -10;
 }
 
 GameScene::~GameScene()
@@ -29,6 +30,7 @@ void GameScene::update(float dt)
 
 void GameScene::draw(GLView *view)
 {
+	mCamera.apply();
 	mTerrain->draw();
 	mPickedPoint = glGetPoint3D(mMouseX, mMouseY);
 	for (std::list<GameObject*>::iterator iobj = mGameObjectList.begin(); iobj != mGameObjectList.end(); iobj++)

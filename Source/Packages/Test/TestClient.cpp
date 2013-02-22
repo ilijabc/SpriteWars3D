@@ -48,9 +48,6 @@ TestClient::TestClient(AppServer *server)
 	mSceneSize.set(settings.width, settings.height);
 	for (int i = 0; i < 8; i++)
 		mButtonState[i] = GLFW_RELEASE;
-	mCameraPos.set(0, 0, 100);
-	mCamera.zoom = -10;
-	//mCamera.position.set(20, 20, 0);
 
 	mSprite = new GLSprite("Modules/War2/archer.anim");
 	mTexture2 = new GLTexture(mSprite->getTexture()->getFileName(), GLPLUS_TEXTURE_NEAREST, colorTexFilter);
@@ -111,40 +108,12 @@ void TestClient::onUpdate(float dt)
 
 void TestClient::onDraw()
 {
-#if 0
-	mSceneSize = mView->beginScene2DWide(mCameraPos.z);
-	glPushMatrix();
-	//grid
-	glBegin(GL_LINES);
-	glColor3f(1, 1, 1);
-	glVertex2f(-mSceneSize.x / 2, mCameraPos.y);
-	glVertex2f(mSceneSize.x / 2, mCameraPos.y);
-	glVertex2f(mCameraPos.x, -mSceneSize.y / 2);
-	glVertex2f(mCameraPos.x, mSceneSize.y / 2);
-	glEnd();
-	//scene
-	glTranslatef(mCameraPos.x, mCameraPos.y, 0);
-	//mScene->draw(mView);
-	glPopMatrix();
-	mView->endScene2D();
-#else
+	// draw game
 	mView->beginScene3D();
-	mCamera.apply();
-	//float color[4] = { 1,1,0,1 };
-	//glColor3f(1,1,0);
-	//mView->drawCube(1, 1, 1);
-	//glColor3f(0, 1, 0);
-	//mTerrain->render();
-	//glColor3f(1,1,1);
 	mScene->draw(mView);
 	mView->endScene3D();
-#endif
-	//gui
+	//draw gui
 	mView->beginGui();
-	glTranslatef(100, 100, 0);
-	mSprite->drawFrame(0);
-	glTranslatef(100, 0, 0);
-	mSprite->drawFrame(mTexture2, 0, 0);
 	//mTestForm->draw(mView);
 	mView->endGui();
 }
@@ -164,21 +133,21 @@ void TestClient::onMouseMoveEvent(int x, int y)
 {
 	float dx = x - mMouseX;
 	float dy = y - mMouseY;
+	GLCamera *camera = mScene->getCamera();
 	if (mButtonState[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
 	{
 		float fx = mSceneSize.x / (float)mView->getWidth();
 		float fy = mSceneSize.y / (float)mView->getHeight();
-		mCameraPos.x += dx * fx;
-		mCameraPos.y -= dy * fy;
-		mCamera.rotation.z += dx;
-		mCamera.rotation.x += dy;
+		camera->rotation.z += dx;
+		camera->rotation.x += dy;
 	}
-	mMouseX = x;
-	mMouseY = y;
 	if (mTestForm)
 	{
 		mTestForm->sendMouseMove(x, y);
 	}
+	//store status
+	mMouseX = x;
+	mMouseY = y;
 }
 
 void TestClient::onMouseButtonEvent(int button, int press)
@@ -198,11 +167,10 @@ void TestClient::onMouseButtonEvent(int button, int press)
 void TestClient::onMouseWheelEvent(int wheel)
 {
 	float dz = wheel - mMouseWheel;
-	mCameraPos.z -= dz * 5;
-	if (mCameraPos.z < 5)
-		mCameraPos.z = 5;
+	GLCamera *camera = mScene->getCamera();
+	camera->zoom += dz;
+	//store status
 	mMouseWheel = wheel;
-	mCamera.zoom += dz;
 }
 
 void TestClient::onSize(int width, int height)

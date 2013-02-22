@@ -30,6 +30,7 @@ public:
     inline unsigned int getDrawFlags() const { return mDrawFlags; }
     inline GameTerrain *getTerrain() const { return mTerrain; }
     inline vector3f getWorldPoint(int x, int y) { mMouseX = x; mMouseY = y; return mPickedPoint; }
+    inline GLCamera *getCamera() { return &mCamera; }
 
 private:
     AppClient *mGame;
@@ -40,6 +41,7 @@ private:
 	vector3f mPickedPoint;
 	int mMouseX;
 	int mMouseY;
+	GLCamera mCamera;
 };
 
 #endif /* GAMESCENE_H_ */

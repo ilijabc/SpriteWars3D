@@ -42,9 +42,7 @@ private:
 	GLFloat2 mSceneSize;
 	int mButtonState[8];
 	int mMouseX, mMouseY, mMouseWheel;
-	GLFloat3 mCameraPos;
 	GUIForm *mTestForm;
-	GLCamera mCamera;
 	GLSprite *mSprite;
 	GLTexture *mTexture2;
 	vector3f mWorldPoint;

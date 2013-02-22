@@ -6,6 +6,7 @@
  */
 
 #include "GameSprite.h"
+#include "GameScene.h"
 
 GameSprite::GameSprite(GameScene *scene)
 		: GameObject(scene, eGameSpriteType)
@@ -40,15 +41,14 @@ void GameSprite::onUpdate(float dt)
 void GameSprite::onDraw(GLView* view, unsigned int flags)
 {
 	GLTexture *tex = mTexture;
+	GLCamera *camera = getScene()->getCamera();
 	if (tex == NULL)
 		tex = mSprite->getTexture();
-	//glDisable(GL_CULL_FACE);
-	//glScalef(0.1, 0.1, 0.1);
-	glRotatef(90, 1, 0, 0);
+	glRotatef(-camera->rotation.z, 0, 0, 1);
+	glRotatef(-camera->rotation.x, 1, 0, 0);
 	glEnable(GL_BLEND);
 	glDisable(GL_LIGHTING);
 	mSprite->drawFrame(tex, mCurrentAnimation->index, mFrameIndex);
-	//glEnable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 }
