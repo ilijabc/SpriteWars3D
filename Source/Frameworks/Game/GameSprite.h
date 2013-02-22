@@ -26,8 +26,8 @@ public:
 private:
 	GLSprite *mSprite;
 	GLTexture *mTexture;
-	int mCurrentAnimation;
-	int mCurrentFrame;
+	GLSprite::Animation *mCurrentAnimation;
+	int mFrameIndex;
 	float mFrameTimer;
 };
 
