@@ -8,14 +8,15 @@
 #define GLPLUS_TEXTURE_BORDER        0x4
 #define GLPLUS_TEXTURE_NEAREST       0x8
 #define GLPLUS_TEXTURE_LINEAR        0x10
-#define GLPLUS_TEXTURE_COLORKEY      0x20
+
+typedef void (*GLTextureFilterFuncPtr)(unsigned char *img_data, int img_w, int img_h, int img_bpp, void *param);
 
 class GLTexture
 {
 public:
 	GLTexture();
-	GLTexture(int w, int h, int flags = 0, float *color = 0);
-	GLTexture(const char* file_name, int flags = 0, float *color = 0);
+	GLTexture(int w, int h, int flags = 0);
+	GLTexture(const char* file_name, int flags = 0, GLTextureFilterFuncPtr filterFunc = 0, void *filterParam = 0);
 	virtual ~GLTexture();
 
 	void push() const;

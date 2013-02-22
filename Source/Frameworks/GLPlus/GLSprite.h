@@ -44,11 +44,13 @@ public:
 
 	void drawFrame(int singleFrameIndex);
 	void drawFrame(int animIndex, int frameIndex);
+	void drawFrame(GLTexture *tex, int animIndex, int frameIndex);
 	int findAnimationIndex(const char *name);
 
 	inline int getAnimationsCount() const { return mAnimationsCount; }
 	Animation* getAnimation(int index) const { return &(mAnimations[index]); }
 	inline DFSprite *getSpriteInfo() { return &mSpriteInfo; }
+	inline GLTexture *getTexture() { return mTexture; }
 
 private:
 	void parseDFSpriteCell(AnimFrame *frame, const DFSprite::Cell *cell);

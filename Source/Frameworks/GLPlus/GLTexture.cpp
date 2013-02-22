@@ -15,7 +15,7 @@ GLTexture::GLTexture()
 	_fileName = NULL;
 }
 
-GLTexture::GLTexture(int w, int h, int flags, float *color)
+GLTexture::GLTexture(int w, int h, int flags)
 {
     glGenTextures(1, &_textureId);
     glBindTexture(GL_TEXTURE_2D, _textureId);
@@ -37,7 +37,7 @@ GLTexture::GLTexture(int w, int h, int flags, float *color)
 	_fileName = NULL;
 }
 
-GLTexture::GLTexture(const char *file_name, int flags, float *color)
+GLTexture::GLTexture(const char *file_name, int flags, GLTextureFilterFuncPtr filterFunc, void *filterParam)
 {
 	int img_width = 0;
 	int img_height = 0;
@@ -91,13 +91,11 @@ GLTexture::GLTexture(const char *file_name, int flags, float *color)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         }
 
-        //color key
-		#if 0
-        if (flags & GLPLUS_TEXTURE_COLORKEY)
+        //filter function
+        if (filterFunc)
         {
-            img->replacePixels(ckey, Color::Transparent);
+        	filterFunc(img_data, _width, _height, _bpp, filterParam);
         }
-		#endif
 
         //mipmaps
         if (flags & GLPLUS_TEXTURE_NOMIPMAPS)

@@ -78,10 +78,15 @@ void GLSprite::drawFrame(int singleFrameIndex)
 
 void GLSprite::drawFrame(int animIndex, int frameIndex)
 {
+	drawFrame(mTexture, animIndex, frameIndex);
+}
+
+void GLSprite::drawFrame(GLTexture *tex, int animIndex, int frameIndex)
+{
 #if GLSPRITE_IMMEDIATE_MODE
 #else
 	AnimFrame *frame = &(mAnimations[animIndex].frames[frameIndex]);
-	mTexture->push();
+	tex->push();
 	glColor3f(1, 1, 1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -90,7 +95,7 @@ void GLSprite::drawFrame(int animIndex, int frameIndex)
 	glDrawArrays(GL_TRIANGLES, 0, frame->verticesCount);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	mTexture->pop();
+	tex->pop();
 #endif
 }
 
@@ -107,13 +112,13 @@ void GLSprite::parseDFSpriteCell(AnimFrame* frame, const DFSprite::Cell* cell)
 		const DFSprite::Sprite *psprite = &(cell->sprites[i]);
 		const DFSprite::Frame *pframe = cell->sprites[i].frame;
 		float u1 = (float)pframe->x / imgW;
-		float v1 = (float)pframe->y / imgH;
+		float v1 = (float)(pframe->y + pframe->h) / imgH;
 		float u2 = (float)(pframe->x + pframe->w) / imgW;
-		float v2 = (float)(pframe->y + pframe->h) / imgH;
-		float x1 = (float)psprite->x;
-		float y1 = (float)psprite->y;
-		float x2 = (float)(psprite->x + pframe->w);
-		float y2 = (float)(psprite->y + pframe->h);
+		float v2 = (float)pframe->y / imgH;
+		float x1 = (float)(psprite->x - pframe->w / 2);
+		float y1 = (float)(-psprite->y - pframe->h / 2);
+		float x2 = (float)(psprite->x + pframe->w / 2);
+		float y2 = (float)(-psprite->y + pframe->h / 2);
 		//make vertices
 		//pos
 		frame->verticesPos[0].set(x1, y1);
