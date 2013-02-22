@@ -18,6 +18,7 @@ GLSprite::GLSprite(const char *animFile)
 	if (mSpriteInfo.parseAnimFile(animFile))
 	{
 		mTexture = new GLTexture(mSpriteInfo.imageName.c_str());
+#if !GLSPRITE_IMMEDIATE_MODE
 		mAnimationsCount = mSpriteInfo.animations.size();
 		mAnimations = new Animation [mAnimationsCount];
 		for (int animIndex = 0; animIndex < mAnimationsCount; animIndex++)
@@ -25,7 +26,7 @@ GLSprite::GLSprite(const char *animFile)
 			mAnimations[animIndex].name = mSpriteInfo.animations[animIndex].name;
 			mAnimations[animIndex].index = animIndex;
 			mAnimations[animIndex].framesCount = mSpriteInfo.animations[animIndex].cells.size();
-			mAnimations[animIndex].frames = new AnimFrame [mAnimationsCount];
+			mAnimations[animIndex].frames = new AnimFrame [mAnimations[animIndex].framesCount];
 			for (int frameIndex = 0; frameIndex < mAnimations[animIndex].framesCount; frameIndex++)
 			{
 				parseDFSpriteCell(
@@ -33,6 +34,7 @@ GLSprite::GLSprite(const char *animFile)
 						&(mSpriteInfo.animations[animIndex].cells[frameIndex]));
 			}
 		}
+#endif
 	}
 
 }
@@ -43,10 +45,44 @@ GLSprite::~GLSprite()
 	delete mAnimations;
 }
 
+void GLSprite::drawFrame(int singleFrameIndex)
+{
+	// immediate mode only!
+	DFSprite::Frame *pframe = mSpriteInfo.getFrameByIndex(singleFrameIndex);
+	if (pframe)
+	{
+		float imgW = (float)mTexture->getWidth();
+		float imgH = (float)mTexture->getHeight();
+		float u1 = (float)pframe->x / imgW;
+		float v1 = (float)pframe->y / imgH;
+		float u2 = (float)(pframe->x + pframe->w) / imgW;
+		float v2 = (float)(pframe->y + pframe->h) / imgH;
+		float x1 = 0;
+		float y1 = 0;
+		float x2 = (float)pframe->w;
+		float y2 = (float)pframe->h;
+		mTexture->push();
+		glBegin(GL_QUADS);
+		glTexCoord2f(u1, v1);
+		glVertex2f(x1, y1);
+		glTexCoord2f(u2, v1);
+		glVertex2f(x2, y1);
+		glTexCoord2f(u2, v2);
+		glVertex2f(x2, y2);
+		glTexCoord2f(u1, v2);
+		glVertex2f(x1, y2);
+		glEnd();
+		mTexture->pop();
+	}
+}
+
 void GLSprite::drawFrame(int animIndex, int frameIndex)
 {
+#if GLSPRITE_IMMEDIATE_MODE
+#else
 	AnimFrame *frame = &(mAnimations[animIndex].frames[frameIndex]);
 	mTexture->push();
+	glColor3f(1, 1, 1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glVertexPointer(2, GL_FLOAT, 0, frame->verticesPos);
@@ -55,6 +91,7 @@ void GLSprite::drawFrame(int animIndex, int frameIndex)
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	mTexture->pop();
+#endif
 }
 
 void GLSprite::parseDFSpriteCell(AnimFrame* frame, const DFSprite::Cell* cell)

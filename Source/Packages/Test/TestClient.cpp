@@ -106,7 +106,10 @@ void TestClient::onDraw()
 #endif
 	//gui
 	mView->beginGui();
-	mSprite->drawFrame(0, 0);
+	glTranslatef(100, 100, 0);
+	mSprite->drawFrame(1, 1);
+	glTranslatef(100, 0, 0);
+	mSprite->drawFrame(10);
 	//mTestForm->draw(mView);
 	mView->endGui();
 }

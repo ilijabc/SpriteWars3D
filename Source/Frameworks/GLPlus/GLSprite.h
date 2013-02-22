@@ -8,6 +8,8 @@
 #ifndef GLSPRITE_H_
 #define GLSPRITE_H_
 
+#define GLSPRITE_IMMEDIATE_MODE 0
+
 #include "GLTexture.h"
 #include "Utils/DFSprite.h"
 #include "Common/vector2.h"
@@ -40,6 +42,7 @@ public:
 	GLSprite(const char *animFile);
 	virtual ~GLSprite();
 
+	void drawFrame(int singleFrameIndex);
 	void drawFrame(int animIndex, int frameIndex);
 	int findAnimationIndex(const char *name);
 
