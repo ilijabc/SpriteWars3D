@@ -17,7 +17,7 @@ GLSprite::GLSprite(const char *animFile)
 
 	if (mSpriteInfo.parseAnimFile(animFile))
 	{
-		mTexture = new GLTexture(mSpriteInfo.imageName.c_str());
+		mTexture = new GLTexture(mSpriteInfo.imageName.c_str(), GLPLUS_TEXTURE_NEAREST);
 #if !GLSPRITE_IMMEDIATE_MODE
 		mAnimationsCount = mSpriteInfo.animations.size();
 		mAnimations = new Animation [mAnimationsCount];
