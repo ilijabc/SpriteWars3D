@@ -53,7 +53,8 @@ public:
     inline int getWidth() const { return mSizeX; }
     inline int getHeight() const { return mSizeY; }
 
-	virtual void render();
+	void render();
+	void render(float x1, float y1, float x2, float y2);
 
 	void buildNormals();
 

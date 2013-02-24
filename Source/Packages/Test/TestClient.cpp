@@ -52,6 +52,8 @@ TestClient::TestClient(AppServer *server)
 	mSprite = new GLSprite("Modules/War2/archer.anim");
 	mTexture2 = new GLTexture(mSprite->getTexture()->getFileName(), GLPLUS_TEXTURE_NEAREST, colorTexFilter);
 
+	mSkyTexture = getTexture("sky.png");
+
 	initGUI();
 	initScene();
 }
@@ -73,20 +75,37 @@ void TestClient::initScene()
 {
 	mScene = new GameScene(this);
 
-	vector3f obj1_pos(3, 3, 0);
-	obj1_pos.z = mScene->getTerrain()->getHeight(obj1_pos.x, obj1_pos.y);
-	GameObject *obj1 = new GameObject(mScene, 0);
-	obj1->setPosition(obj1_pos);
-	mScene->addObject(obj1);
+	//units
+	for (int i = 0; i < 50; i++)
+	{
+		vector3f obj_pos;
+		obj_pos.x = 50 + (i / 6);
+		obj_pos.y = 50 + (i % 6);
+		obj_pos.z = mScene->getTerrain()->pickHeight(obj_pos.x, obj_pos.y);
+		GameSprite *obj = new GameSprite(mScene);
+		obj->setPosition(obj_pos);
+		obj->setSprite(mSprite);
+		obj->setTexture(mTexture2);
+		obj->setSelected(true);
+		mScene->addObject(obj);
+		//last
+		mCursorObjct = obj;
+	}
 
-	vector3f obj2_pos(0, 0, 0);
-	obj2_pos.z = mScene->getTerrain()->getHeight(obj2_pos.x, obj2_pos.y);
-	GameSprite *obj2 = new GameSprite(mScene);
-	obj2->setPosition(obj2_pos);
-	obj2->setTexture(mTexture2);
-	mScene->addObject(obj2);
-
-	mCursorObjct = obj2;
+	//trees
+	GLTexture *treeTexture = getTexture("tree.png");
+	for (int i = 0; i < 100; i++)
+	{
+		vector3f obj_pos;
+		obj_pos.x = randomFloat(mScene->getTerrain()->getWidth());
+		obj_pos.y = randomFloat(mScene->getTerrain()->getHeight());
+		obj_pos.z = mScene->getTerrain()->pickHeight(obj_pos.x, obj_pos.y);
+		GameSprite *obj = new GameSprite(mScene);
+		obj->setPosition(obj_pos);
+		obj->setTexture(treeTexture);
+		obj->setShadow(true);
+		mScene->addObject(obj);
+	}
 }
 
 TestClient::~TestClient()
@@ -101,13 +120,16 @@ TestClient::~TestClient()
 void TestClient::onUpdate(float dt)
 {
 	mWorldPoint = mScene->getWorldPoint(mMouseX, mMouseY);
-	mCursorObjct->setPosition(mWorldPoint);
 	mScene->update(dt);
 	mTestForm->doEvents();
 }
 
 void TestClient::onDraw()
 {
+	//sky
+	mView->beginGui();
+	mSkyTexture->drawImage(0, 0, mView->getWidth(), mView->getHeight(), 0, 0, 1, 1);
+	mView->endGui();
 	// draw game
 	mView->beginScene3D();
 	mScene->draw(mView);
@@ -134,12 +156,23 @@ void TestClient::onMouseMoveEvent(int x, int y)
 	float dx = x - mMouseX;
 	float dy = y - mMouseY;
 	GLCamera *camera = mScene->getCamera();
-	if (mButtonState[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
+	if (mButtonState[GLFW_MOUSE_BUTTON_LEFT] == GLFW_PRESS)
+	{
+		mCursorObjct->setPosition(mWorldPoint);
+	}
+	if (mButtonState[GLFW_MOUSE_BUTTON_MIDDLE] == GLFW_PRESS)
 	{
 		float fx = mSceneSize.x / (float)mView->getWidth();
 		float fy = mSceneSize.y / (float)mView->getHeight();
 		camera->rotation.z += dx;
 		camera->rotation.x += dy;
+		camera->rotation.x = CLAMP(camera->rotation.x, -80, -40);
+	}
+	if (mButtonState[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
+	{
+		//camera->position.x -= dx * 0.1;
+		//camera->position.y += dy * 0.1;
+		camera->translate2D(-dx * 0.1, dy * 0.1);
 	}
 	if (mTestForm)
 	{

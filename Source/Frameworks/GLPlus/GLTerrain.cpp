@@ -140,10 +140,15 @@ float GLTerrain::pickHeight(float x, float y)
 
 void GLTerrain::render()
 {
-	int tx1 = 0;
-	int tx2 = mSizeX;
-	int ty1 = 0;
-	int ty2 = mSizeY;
+	render(0, 0, mSizeX, mSizeY);
+}
+
+void GLTerrain::render(float x1, float y1, float x2, float y2)
+{
+	int tx1 = CLAMP((int)x1, 0, mSizeX);
+	int tx2 = CLAMP((int)x2, 0, mSizeY);
+	int ty1 = CLAMP((int)y1, 0, mSizeY);
+	int ty2 = CLAMP((int)y2, 0, mSizeY);
 
 	//glPushTexture(m_Texture);
 	if (mTexture)

@@ -21,7 +21,6 @@ public:
 
 private:
 	GLTerrain *mTerrain;
-	vector3f mPosition;
 };
 
 #endif /* GAMETERRAIN_H_ */

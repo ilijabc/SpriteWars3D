@@ -1,6 +1,7 @@
 #include "GLCamera.h"
 #include <math.h>
-
+#include <Common/vector2.h>
+#include <Common/mymath.h>
 
 GLCamera::GLCamera()
 {
@@ -31,11 +32,11 @@ void GLCamera::apply()
 
 void GLCamera::translate2D(const float x, const float y)
 {
-	/*vector2f v = vector2f(x, y).getRotated(-mDegToRad(rotation.z));
+	vector2f v = vector2f(x, y).getRotated(-myDegToRad(rotation.z));
 	position.x += v.x;
-	position.y += v.y;*/
-	position.x += cosf(rotation.z * GLPLUS_TORAD);
-	position.y += sinf(rotation.z * GLPLUS_TORAD);
+	position.y += v.y;
+	//position.x += cosf(rotation.z * GLPLUS_TORAD);
+	//position.y += sinf(rotation.z * GLPLUS_TORAD);
 }
 
 

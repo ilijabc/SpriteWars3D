@@ -28,20 +28,22 @@ public:
 	//getters
     inline AppClient *getGame() const { return mGame; }
     inline unsigned int getDrawFlags() const { return mDrawFlags; }
-    inline GameTerrain *getTerrain() const { return mTerrain; }
+    inline GLTerrain *getTerrain() const { return mTerrain; }
     inline vector3f getWorldPoint(int x, int y) { mMouseX = x; mMouseY = y; return mPickedPoint; }
     inline GLCamera *getCamera() { return &mCamera; }
+    inline GLTexture *getSelectTexture() const { return mSelectTexture; }
 
 private:
     AppClient *mGame;
 	std::list<GameObject*> mGameObjectList;
 	unsigned int mDrawFlags;
 	matrix4f mSceneMatrix;
-	GameTerrain *mTerrain;
+	GLTerrain *mTerrain;
 	vector3f mPickedPoint;
 	int mMouseX;
 	int mMouseY;
 	GLCamera mCamera;
+	GLTexture *mSelectTexture;
 };
 
 #endif /* GAMESCENE_H_ */

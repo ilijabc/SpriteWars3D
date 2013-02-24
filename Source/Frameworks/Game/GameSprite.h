@@ -18,8 +18,12 @@ public:
 	//events
 	virtual void onUpdate(float dt);
 	virtual void onDraw(GLView *view, unsigned int flags);
+	virtual void onDrawShadow(GLView *view);
 	//setters
-	inline void setTexture(GLTexture *tex) { mTexture = tex; }
+	void setSprite(GLSprite *sprite);
+	void setTexture(GLTexture *tex);
+	inline void setSelected(bool sel) { mSelected = sel; }
+
 	//getters
 	inline GLTexture *getTexture() const { return mTexture; }
 
@@ -29,6 +33,8 @@ private:
 	GLSprite::Animation *mCurrentAnimation;
 	int mFrameIndex;
 	float mFrameTimer;
+	float mScaleImage;
+	bool mSelected;
 };
 
 #endif /* GAMESPRITE_H_ */

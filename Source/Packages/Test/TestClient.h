@@ -47,6 +47,7 @@ private:
 	GLTexture *mTexture2;
 	vector3f mWorldPoint;
 	GameObject *mCursorObjct;
+	GLTexture *mSkyTexture;
 };
 
 #endif /* TESTCLIENT_H_ */

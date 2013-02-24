@@ -11,8 +11,17 @@ GameScene::GameScene(AppClient *game)
 		: mGame(game)
 		, mDrawFlags(0xFFFFFFFF)
 {
-	mTerrain = new GameTerrain();
-	mCamera.zoom = -10;
+	mCamera.position.set(50, 50, 0);
+	mCamera.rotation.x = -45;
+	mCamera.zoom = -20;
+
+	mTerrain = new GLTerrain();
+	mTerrain->init(100, 100);
+	mTerrain->generate(200, 10, 12, 0, 1);
+	mTerrain->buildNormals();
+	mTerrain->setTexture(getGame()->getTexture("grass.png"));
+
+	mSelectTexture = getGame()->getTexture("select.png");
 }
 
 GameScene::~GameScene()
@@ -31,18 +40,23 @@ void GameScene::update(float dt)
 void GameScene::draw(GLView *view)
 {
 	mCamera.apply();
-	mTerrain->draw();
+	mTerrain->render(
+			mCamera.position.x - 22,
+			mCamera.position.y - 9,
+			mCamera.position.x + 22,
+			mCamera.position.y + 21);
 	mPickedPoint = glGetPoint3D(mMouseX, mMouseY);
+	//shadow
 	for (std::list<GameObject*>::iterator iobj = mGameObjectList.begin(); iobj != mGameObjectList.end(); iobj++)
 	{
 		GameObject* obj = *iobj;
-		//GLFloat3 position = obj->getPosition();
-		//float rotation = obj->getRotation();
-		//glPushMatrix();
-		//glTranslatef(position.x, position.y, position.z);
-		//glRotatef(rotation, 0, 0, 1);
-		//obj->onDraw(view, mDrawFlags);
-		//glPopMatrix();
+		if (obj->getShadow())
+			obj->drawObjectShadow(view);
+	}
+	//object
+	for (std::list<GameObject*>::iterator iobj = mGameObjectList.begin(); iobj != mGameObjectList.end(); iobj++)
+	{
+		GameObject* obj = *iobj;
 		obj->drawObject(view, mSceneMatrix, mDrawFlags);
 	}
 }

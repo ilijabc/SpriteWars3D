@@ -11,6 +11,7 @@ GameObject::GameObject(GameScene *scene, int type)
 		, mPosition(0, 0, 0)
 		, mRotation(0, 0, 0)
 		, mScale(1, 1, 1)
+		, mHasShadow(false)
 {
 	strcpy(mName, "");
 }
@@ -45,6 +46,18 @@ void GameObject::drawObject(GLView *view, const matrix4f &modelMatrix, unsigned 
 #endif
 }
 
+void GameObject::drawObjectShadow(GLView *view)
+{
+    glPushMatrix();
+    glTranslatef(mPosition.x, mPosition.y, mPosition.z);
+    glRotatef(mRotation.x, 1, 0, 0);
+    glRotatef(mRotation.y, 0, 1, 0);
+    glRotatef(mRotation.z, 0, 0, 1);
+    glScalef(mScale.x, mScale.y, mScale.z);
+    onDrawShadow(view);
+    glPopMatrix();
+}
+
 void GameObject::onUpdate(float dt)
 {
 }
@@ -54,3 +67,7 @@ void GameObject::onDraw(GLView *view, unsigned int flags)
 	view->drawCube(1, 1, 1);
 }
 
+void GameObject::onDrawShadow(GLView *view)
+{
+
+}

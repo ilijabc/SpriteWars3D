@@ -84,7 +84,7 @@ AppServer::AppServer(const char *settings_path)
     mSettings.height = 600;
     mSettings.fullscreen = 0;
     mSettings.desktop = 0;
-#else
+#endif
     if (mSettings.desktop)
     {
         GLFWvidmode dm;
@@ -93,7 +93,6 @@ AppServer::AppServer(const char *settings_path)
         mSettings.height = dm.Height;
         mSettings.fullscreen = 1;
     }
-#endif
 
     //glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
     if (!glfwOpenWindow(
