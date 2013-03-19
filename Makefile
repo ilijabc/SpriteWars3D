@@ -15,8 +15,14 @@ MKDIR := mkdir -p
 
 OUT_DIR := Out
 OBJ_DIR := $(OUT_DIR)/obj
-ifneq ($(PACKAGE),)
-	ONAME := $(OUT_DIR)/$(PACKAGE)
+ONAME := $(OUT_DIR)/SpriteWars3D
+
+#################################################################################
+# Configuration
+#################################################################################
+
+ifneq ($(word 1,$(MAKECMDGOALS)),build)
+	include Build/Config.mk
 endif
 
 #################################################################################
@@ -55,6 +61,7 @@ endif
 include Build/Externals.mk
 include Build/Frameworks.mk
 ifneq ($(PACKAGE),)
+	ONAME := $(OUT_DIR)/$(PACKAGE)
 	include Build/Package_$(PACKAGE).mk
 endif
 
@@ -90,7 +97,7 @@ $(OBJ_DIR)/%.o:  %.c
 # Build rules
 #################################################################################
 
-all: info help
+all: build
 
 info:
 	@echo ' ======================='
@@ -101,7 +108,6 @@ info:
 	@echo ' ======================='
 
 build: info $(OBJS) $(RES)
-	@echo 'Building $(ONAME)'
 	@$(CPP) $(CFLAGS) -o $(ONAME) $(OBJS) $(RES) $(LIBS)
 	@echo 'Finished building target: $(ONAME)'
 
@@ -115,9 +121,16 @@ run: build
 help:
 	@echo " "
 	@echo " -----------------------------------------------------------------------------"
-	@echo " Usage:          make <rule> TARGET=<target> BUILD=<build>"
+	@echo " Usage:"
 	@echo " "
-	@echo " <rule>       :  build, clean, help"
-	@echo " <target>     :  linux, mingw"
-	@echo " <build>      :  release, debug"
+	@echo " make <rule>"
+	@echo "   <rule>       :  all, build, clean, help"
+	@echo " "
+	@echo " For (rule = all) configuration is read from Config.mk, otherwise, config"
+	@echo " variables must be set manualy."
+	@echo " "
+	@echo " make <rule> TARGET=<target> BUILD=<build> PACKAGE=<package>"
+	@echo "   <target>     :  linux, mingw"
+	@echo "   <build>      :  release, debug"
+	@echo "   <package>    :  Test"
 	@echo " -----------------------------------------------------------------------------"
