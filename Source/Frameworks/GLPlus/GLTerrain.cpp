@@ -150,12 +150,10 @@ void GLTerrain::render(float x1, float y1, float x2, float y2)
 	int ty1 = CLAMP((int)y1, 0, mSizeY);
 	int ty2 = CLAMP((int)y2, 0, mSizeY);
 
-	//glPushTexture(m_Texture);
-	if (mTexture)
-		mTexture->push();
-
+	// render ground
+	if (mGroundTexture)
+		mGroundTexture->push();
 	glBegin(GL_QUADS);
-
 	for (int tx = tx1; tx < tx2; tx++)
 	{
 		for (int ty = ty1; ty < ty2; ty++)
@@ -185,12 +183,38 @@ void GLTerrain::render(float x1, float y1, float x2, float y2)
 			}
 		}
 	}
-
 	glEnd();
+	if (mGroundTexture)
+		mGroundTexture->pop();
 
-	//glPopTexture();
-	if (mTexture)
-		mTexture->pop();
+	// render water
+	if (mWaterTexture)
+	{
+		float z = 0;
+		float u1 = 0;
+		float v1 = 0;
+		float u2 = 1;
+		float v2 = 1;
+		mWaterTexture->push();
+		glBegin(GL_QUADS);
+		glColor4f(1, 1, 1, 1);
+		glNormal3f(0, 0, 1);
+		//A
+		glTexCoord2f(u1, v1);
+		glVertex3f(x1, y1, z);
+		//B
+		glTexCoord2f(u2, v1);
+		glVertex3f(x2, y1, z);
+		//C
+		glTexCoord2f(u2, v2);
+		glVertex3f(x2, y2, z);
+		//D
+		glTexCoord2f(u1, v2);
+		glVertex3f(x1, y2, z);
+		glEnd();
+		mWaterTexture->pop();
+	}
+
 }
 
 

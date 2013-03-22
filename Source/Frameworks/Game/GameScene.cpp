@@ -19,7 +19,8 @@ GameScene::GameScene(AppClient *game)
 	mTerrain->init(100, 100);
 	mTerrain->generate(200, 10, 12, 0, 1);
 	mTerrain->buildNormals();
-	mTerrain->setTexture(getGame()->getTexture("grass.png"));
+	mTerrain->setGroundTexture(getGame()->getTexture("grass.png"));
+	mTerrain->setWaterTexture(getGame()->getTexture("water.jpg"));
 
 	mSelectTexture = getGame()->getTexture("select.png");
 }

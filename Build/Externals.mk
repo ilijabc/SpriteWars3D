@@ -83,19 +83,9 @@ SRC_EXTERNAL_LUA := \
 	Source/External/Lua/ltable.c \
 	Source/External/Lua/ltablib.c \
 	Source/External/Lua/ltm.c \
-	Source/External/Lua/lua.c \
-	Source/External/Lua/luac.c \
 	Source/External/Lua/lundump.c \
 	Source/External/Lua/lvm.c \
 	Source/External/Lua/lzio.c
-
-SRC_EXTERNAL_MATHGL := \
-	Source/External/MathGL/GLBernsteinPolynomial.cpp \
-	Source/External/MathGL/GLFunctions.cpp \
-	Source/External/MathGL/GLMatrix.cpp \
-	Source/External/MathGL/GLVector.cpp \
-	Source/External/MathGL/LinearPolynomial.cpp \
-	Source/External/MathGL/Matrix.cpp
 
 SRC_EXTERNAL_NANOSVG := \
     Source/External/NanoSVG/nanosvg.c
@@ -109,3 +99,11 @@ SRC_EXTERNAL_POLY2TRI := \
 
 SRC_EXTERNAL_TINYXML := \
     Source/External/TinyXML/tinyxml2.cpp
+
+SRC_EXTERNALS := \
+	$(SRC_EXTERNAL_BOX2D) \
+	$(SRC_EXTERNAL_INIPARSER) \
+	$(SRC_EXTERNAL_LUA) \
+	$(SRC_EXTERNAL_NANOSVG) \
+	$(SRC_EXTERNAL_POLY2TRI) \
+	$(SRC_EXTERNAL_TINYXML)

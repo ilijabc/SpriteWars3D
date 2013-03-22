@@ -4,7 +4,7 @@
 		<cconfiguration id="0.854915766">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="0.854915766" moduleId="org.eclipse.cdt.core.settings" name="Default">
 				<macros>
-					<stringMacro name="PACKAGE" type="VALUE_TEXT" value="Test"/>
+					<stringMacro name="PACKAGE" type="VALUE_TEXT" value="LakeGame"/>
 					<stringMacro name="BUILD" type="VALUE_TEXT" value="debug"/>
 					<stringMacro name="TARGET" type="VALUE_TEXT" value="mingw"/>
 				</macros>

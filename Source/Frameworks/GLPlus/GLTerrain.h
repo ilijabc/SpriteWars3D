@@ -30,7 +30,8 @@ public:
 
 public:
 	GLTerrain() :
-		mTexture(0),
+		mGroundTexture(0),
+		mWaterTexture(0),
 		mSizeX(0),
 		mSizeY(0)
 	{ }
@@ -45,7 +46,8 @@ public:
 
 	float pickHeight(float x, float y);
 
-	inline void setTexture(GLTexture* tex) { mTexture = tex; }
+	inline void setGroundTexture(GLTexture *tex) { mGroundTexture = tex; }
+	inline void setWaterTexture(GLTexture *tex) { mWaterTexture = tex; }
 
 	inline STerrainVertex& getVertex(int ix, int iy) { return mVertexMap[ix][iy]; }
 	inline STerrainFace& getFace(int ix, int iy) { return mFaceMap[ix][iy]; }
@@ -65,7 +67,8 @@ private:
 	STerrainVertex 	mVertexMap[TERRAIN_MAX_SIZE + 1][TERRAIN_MAX_SIZE + 1];
 	STerrainFace	mFaceMap[TERRAIN_MAX_SIZE][TERRAIN_MAX_SIZE];
 
-	GLTexture*	mTexture;
+	GLTexture*	mGroundTexture;
+	GLTexture*  mWaterTexture;
 	int 		mSizeX;
 	int 		mSizeY;
 };
