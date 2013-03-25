@@ -25,6 +25,7 @@ public:
 	GameObject *getObjectByName(const char *name);
 	//setters
 	inline void setDrawFlags(unsigned int flags) { mDrawFlags = flags; }
+	inline void setTerrain(GLTerrain *terrain) { mTerrain = terrain; }
 	//getters
     inline AppClient *getGame() const { return mGame; }
     inline unsigned int getDrawFlags() const { return mDrawFlags; }

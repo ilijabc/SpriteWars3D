@@ -12,6 +12,10 @@
 #include "App/AppServer.h"
 #include "Game/GameScene.h"
 #include "Game/GameObject.h"
+#include "LakeObject.h"
+
+#include <Box2D/Box2D.h>
+#include <GL/glfw.h>
 
 class LakeGameClient : public AppClient
 {
@@ -38,6 +42,10 @@ private:
     	int y;
     	int wheel;
     } mMouse;
+    int mKeyState[GLFW_KEY_LAST + 1];
+    b2World *mWorld;
+    float mWorldUpdateTimer;
+    LakeObject *mPlayer;
 };
 
 #endif /* LAKEGAMECLIENT_H_ */

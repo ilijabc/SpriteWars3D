@@ -152,65 +152,66 @@ void GLTerrain::render(float x1, float y1, float x2, float y2)
 
 	// render ground
 	if (mGroundTexture)
-		mGroundTexture->push();
-	glBegin(GL_QUADS);
-	for (int tx = tx1; tx < tx2; tx++)
 	{
-		for (int ty = ty1; ty < ty2; ty++)
+		mGroundTexture->push();
+		glBegin(GL_QUADS);
+		for (int tx = tx1; tx < tx2; tx++)
 		{
-			if (mFaceMap[tx][ty].flags != 1)
+			for (int ty = ty1; ty < ty2; ty++)
 			{
-				//A
-				glColor4fv(mVertexMap[tx][ty].color.getPtr());
-				glNormal3fv(mVertexMap[tx][ty].normal.getPtr());
-				glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.AA.y);
-				glVertex3f(tx, ty, mVertexMap[tx][ty].height);
-				//B
-				glColor4fv(mVertexMap[tx+1][ty].color.getPtr());
-				glNormal3fv(mVertexMap[tx+1][ty].normal.getPtr());
-				glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.AA.y);
-				glVertex3f(tx+1, ty, mVertexMap[tx+1][ty].height);
-				//C
-				glColor4fv(mVertexMap[tx+1][ty+1].color.getPtr());
-				glNormal3fv(mVertexMap[tx+1][ty+1].normal.getPtr());
-				glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.BB.y);
-				glVertex3f(tx+1, ty+1, mVertexMap[tx+1][ty+1].height);
-				//D
-				glColor4fv(mVertexMap[tx][ty+1].color.getPtr());
-				glNormal3fv(mVertexMap[tx][ty+1].normal.getPtr());
-				glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.BB.y);
-				glVertex3f(tx, ty+1, mVertexMap[tx][ty+1].height);
+				if (mFaceMap[tx][ty].flags != 1)
+				{
+					//A
+					glColor4fv(mVertexMap[tx][ty].color.getPtr());
+					glNormal3fv(mVertexMap[tx][ty].normal.getPtr());
+					glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.AA.y);
+					glVertex3f(tx, ty, mVertexMap[tx][ty].height);
+					//B
+					glColor4fv(mVertexMap[tx+1][ty].color.getPtr());
+					glNormal3fv(mVertexMap[tx+1][ty].normal.getPtr());
+					glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.AA.y);
+					glVertex3f(tx+1, ty, mVertexMap[tx+1][ty].height);
+					//C
+					glColor4fv(mVertexMap[tx+1][ty+1].color.getPtr());
+					glNormal3fv(mVertexMap[tx+1][ty+1].normal.getPtr());
+					glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.BB.y);
+					glVertex3f(tx+1, ty+1, mVertexMap[tx+1][ty+1].height);
+					//D
+					glColor4fv(mVertexMap[tx][ty+1].color.getPtr());
+					glNormal3fv(mVertexMap[tx][ty+1].normal.getPtr());
+					glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.BB.y);
+					glVertex3f(tx, ty+1, mVertexMap[tx][ty+1].height);
+				}
 			}
 		}
-	}
-	glEnd();
-	if (mGroundTexture)
+		glEnd();
 		mGroundTexture->pop();
+	}
 
 	// render water
 	if (mWaterTexture)
 	{
 		float z = 0;
-		float u1 = 0;
-		float v1 = 0;
-		float u2 = 1;
-		float v2 = 1;
+		float u1 = tx1;
+		float v1 = ty1;
+		float u2 = tx2;
+		float v2 = ty2;
 		mWaterTexture->push();
 		glBegin(GL_QUADS);
 		glColor4f(1, 1, 1, 1);
 		glNormal3f(0, 0, 1);
 		//A
 		glTexCoord2f(u1, v1);
-		glVertex3f(x1, y1, z);
+		glVertex3f(tx1, ty1, z);
 		//B
 		glTexCoord2f(u2, v1);
-		glVertex3f(x2, y1, z);
+		glVertex3f(tx2, ty1, z);
 		//C
 		glTexCoord2f(u2, v2);
-		glVertex3f(x2, y2, z);
+		glVertex3f(tx2, ty2, z);
 		//D
 		glTexCoord2f(u1, v2);
-		glVertex3f(x1, y2, z);
+		glVertex3f(tx1, ty2, z);
 		glEnd();
 		mWaterTexture->pop();
 	}

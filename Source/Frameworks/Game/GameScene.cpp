@@ -11,17 +11,11 @@ GameScene::GameScene(AppClient *game)
 		: mGame(game)
 		, mDrawFlags(0xFFFFFFFF)
 {
-	mCamera.position.set(50, 50, 0);
+	mCamera.position.set(0, 0, 0);
 	mCamera.rotation.x = -45;
 	mCamera.zoom = -20;
 
-	mTerrain = new GLTerrain();
-	mTerrain->init(100, 100);
-	mTerrain->generate(200, 10, 12, 0, 1);
-	mTerrain->buildNormals();
-	mTerrain->setGroundTexture(getGame()->getTexture("grass.png"));
-	mTerrain->setWaterTexture(getGame()->getTexture("water.jpg"));
-
+	mTerrain = NULL;
 	mSelectTexture = getGame()->getTexture("select.png");
 }
 
@@ -41,11 +35,14 @@ void GameScene::update(float dt)
 void GameScene::draw(GLView *view)
 {
 	mCamera.apply();
-	mTerrain->render(
+	if (mTerrain)
+	{
+		mTerrain->render(
 			mCamera.position.x - 22,
 			mCamera.position.y - 9,
 			mCamera.position.x + 22,
 			mCamera.position.y + 21);
+	}
 	mPickedPoint = glGetPoint3D(mMouseX, mMouseY);
 	//shadow
 	for (std::list<GameObject*>::iterator iobj = mGameObjectList.begin(); iobj != mGameObjectList.end(); iobj++)

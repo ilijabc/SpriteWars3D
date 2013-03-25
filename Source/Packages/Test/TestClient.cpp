@@ -75,6 +75,15 @@ void TestClient::initScene()
 {
 	mScene = new GameScene(this);
 
+	//terrain
+	GLTerrain *terrain = new GLTerrain();
+	terrain->init(100, 100);
+	terrain->generate(200, 10, 12, 0, 1);
+	terrain->buildNormals();
+	terrain->setGroundTexture(getTexture("grass.png"));
+	terrain->setWaterTexture(getTexture("water.jpg"));
+	mScene->setTerrain(terrain);
+
 	//units
 	for (int i = 0; i < 50; i++)
 	{
