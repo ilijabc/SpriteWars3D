@@ -48,6 +48,7 @@ private:
 	vector3f mWorldPoint;
 	GameObject *mCursorObjct;
 	GLTexture *mSkyTexture;
+	GameSprite *mPlayer;
 };
 
 #endif /* TESTCLIENT_H_ */

@@ -37,11 +37,15 @@ void GameScene::draw(GLView *view)
 	mCamera.apply();
 	if (mTerrain)
 	{
+#if 0
 		mTerrain->render(
 			mCamera.position.x - 22,
 			mCamera.position.y - 9,
 			mCamera.position.x + 22,
 			mCamera.position.y + 21);
+#else
+		mTerrain->render();
+#endif
 	}
 	mPickedPoint = glGetPoint3D(mMouseX, mMouseY);
 	//shadow

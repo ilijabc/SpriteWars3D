@@ -18,6 +18,7 @@ GameSprite::GameSprite(GameScene *scene)
 	mFrameTimer = 0;
 	mScaleImage = 1;
 	mSelected = false;
+	mAnimating = false;
 }
 
 GameSprite::~GameSprite()
@@ -41,7 +42,7 @@ void GameSprite::setTexture(GLTexture *tex)
 
 void GameSprite::onUpdate(float dt)
 {
-	if (mCurrentAnimation)
+	if (mCurrentAnimation && mAnimating)
 	{
 		mFrameTimer -= dt;
 		if (mFrameTimer <= 0)
@@ -70,7 +71,8 @@ void GameSprite::onDraw(GLView* view, unsigned int flags)
 				0, 0, 1, 1);
 	}
 	glRotatef(-camera->rotation.z, 0, 0, 1);
-	glRotatef(-camera->rotation.x + 10, 1, 0, 0);
+	//glRotatef(90, 1, 0, 0);
+	glRotatef(-camera->rotation.x, 1, 0, 0);
 	glScalef(mScaleImage, mScaleImage, mScaleImage);
 	if (mSprite)
 	{
@@ -95,7 +97,7 @@ void GameSprite::onDrawShadow(GLView *view)
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 	//glTranslatef(0, 0, 0.05);
-	glRotatef(-camera->rotation.z, 0, 0, 1);
+	//glRotatef(-camera->rotation.z, 0, 0, 1);
 	//glRotatef(5, 1, 0, 0);
 	glScalef(mScaleImage, mScaleImage, mScaleImage);
 	if (mSprite)

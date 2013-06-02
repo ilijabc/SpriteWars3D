@@ -50,8 +50,10 @@ endif
 ifeq ($(TARGET),mingw)
 	LIBS += -lgdi32 -lglu32 -lopengl32
 	SRC_RES += Source/Resources/resource.rc
-	INC_PATHS += -I/usr/local/include
-	LIB_PATHS += -L/usr/local/lib
+	INC_PATHS += \
+		-I./Prebuilt/GLFW/include
+	LIB_PATHS += \
+		-L./Prebuilt/GLFW/lib-mingw
 endif
 
 #################################################################################

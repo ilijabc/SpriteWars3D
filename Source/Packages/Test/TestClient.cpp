@@ -81,8 +81,17 @@ void TestClient::initScene()
 	terrain->generate(200, 10, 12, 0, 1);
 	terrain->buildNormals();
 	terrain->setGroundTexture(getTexture("grass.png"));
-	terrain->setWaterTexture(getTexture("water.jpg"));
+	//terrain->setWaterTexture(getTexture("water.jpg"));
 	mScene->setTerrain(terrain);
+
+	//player
+	mPlayer = new GameSprite(mScene);
+	//obj->setPosition(obj_pos);
+	mPlayer->setSprite(mSprite);
+	mPlayer->setTexture(mTexture2);
+	mPlayer->setSelected(true);
+	mScene->addObject(mPlayer);
+	mScene->getCamera()->zoom = -6;
 
 	//units
 	for (int i = 0; i < 50; i++)
@@ -128,6 +137,22 @@ TestClient::~TestClient()
 
 void TestClient::onUpdate(float dt)
 {
+	if (getServer()->getKeyStatus('W'))
+	{
+		//mScene->getCamera()->translate2D(0, dt * 3);
+		vector2f v = vector2f(0, dt * 5).getRotated(-myDegToRad(mScene->getCamera()->rotation.z));
+		vector3f pos = mPlayer->getPosition();
+		pos.x += v.x;
+		pos.y += v.y;
+		pos.z = mScene->getTerrain()->pickHeight(pos.x, pos.y);
+		mPlayer->setPosition(pos);
+		mPlayer->resumeAnimation();
+		mScene->getCamera()->position.set(pos.x, pos.y, pos.z + 1);
+	}
+	else
+	{
+		mPlayer->stopAnimation();
+	}
 	mWorldPoint = mScene->getWorldPoint(mMouseX, mMouseY);
 	mScene->update(dt);
 	mTestForm->doEvents();
@@ -169,13 +194,13 @@ void TestClient::onMouseMoveEvent(int x, int y)
 	{
 		mCursorObjct->setPosition(mWorldPoint);
 	}
-	if (mButtonState[GLFW_MOUSE_BUTTON_MIDDLE] == GLFW_PRESS)
+	//if (mButtonState[GLFW_MOUSE_BUTTON_MIDDLE] == GLFW_PRESS)
 	{
 		float fx = mSceneSize.x / (float)mView->getWidth();
 		float fy = mSceneSize.y / (float)mView->getHeight();
-		camera->rotation.z += dx;
-		camera->rotation.x += dy;
-		camera->rotation.x = CLAMP(camera->rotation.x, -80, -40);
+		camera->rotation.z += dx * 0.25;
+		camera->rotation.x += dy * 0.25;
+		camera->rotation.x = CLAMP(camera->rotation.x, -90, -20);
 	}
 	if (mButtonState[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
 	{

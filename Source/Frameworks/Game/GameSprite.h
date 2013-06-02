@@ -23,9 +23,12 @@ public:
 	void setSprite(GLSprite *sprite);
 	void setTexture(GLTexture *tex);
 	inline void setSelected(bool sel) { mSelected = sel; }
-
 	//getters
 	inline GLTexture *getTexture() const { return mTexture; }
+	//animation
+	inline void pauseAnimation() { mAnimating = false; }
+	inline void resumeAnimation() { mAnimating = true; }
+	inline void stopAnimation() { mAnimating = false; mFrameIndex = 0; }
 
 private:
 	GLSprite *mSprite;
@@ -35,6 +38,7 @@ private:
 	float mFrameTimer;
 	float mScaleImage;
 	bool mSelected;
+	bool mAnimating;
 };
 
 #endif /* GAMESPRITE_H_ */
