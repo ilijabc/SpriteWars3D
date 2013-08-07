@@ -87,9 +87,9 @@ AppServer::AppServer(const char *settings_path)
     mSettings.desktop = iniparser_getint(ini, "video:desktop", 0);
 	mSettings.audio = iniparser_getint(ini, "audio:enabled", 0);
     iniparser_freedict(ini);
-#ifdef __DEBUG
-    mSettings.width = 800;
-    mSettings.height = 600;
+#ifdef DEBUG
+    mSettings.width = 400;
+    mSettings.height = 400;
     mSettings.fullscreen = 0;
     mSettings.desktop = 0;
 #endif

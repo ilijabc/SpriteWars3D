@@ -54,6 +54,9 @@ TestClient::TestClient(AppServer *server)
 
 	mSkyTexture = getTexture("sky.png");
 
+	mScene = NULL;
+	mPlayer = NULL;
+
 	initGUI();
 	initScene();
 }
@@ -83,13 +86,18 @@ void TestClient::initScene()
 	terrain->setGroundTexture(getTexture("grass.png"));
 	//terrain->setWaterTexture(getTexture("water.jpg"));
 	mScene->setTerrain(terrain);
+	mScene->getCamera()->zoom = -50;
 
+#if 0
 	//player
 	mPlayer = new GameSprite(mScene);
-	//obj->setPosition(obj_pos);
-	mPlayer->setSprite(mSprite);
-	mPlayer->setTexture(mTexture2);
-	mPlayer->setSelected(true);
+	if (mPlayer)
+	{
+		//obj->setPosition(obj_pos);
+		mPlayer->setSprite(mSprite);
+		mPlayer->setTexture(mTexture2);
+		mPlayer->setSelected(true);
+	}
 	mScene->addObject(mPlayer);
 	mScene->getCamera()->zoom = -6;
 
@@ -124,6 +132,7 @@ void TestClient::initScene()
 		obj->setShadow(true);
 		mScene->addObject(obj);
 	}
+#endif
 }
 
 TestClient::~TestClient()
@@ -137,21 +146,24 @@ TestClient::~TestClient()
 
 void TestClient::onUpdate(float dt)
 {
-	if (getServer()->getKeyStatus('W'))
+	if (mPlayer)
 	{
-		//mScene->getCamera()->translate2D(0, dt * 3);
-		vector2f v = vector2f(0, dt * 5).getRotated(-myDegToRad(mScene->getCamera()->rotation.z));
-		vector3f pos = mPlayer->getPosition();
-		pos.x += v.x;
-		pos.y += v.y;
-		pos.z = mScene->getTerrain()->pickHeight(pos.x, pos.y);
-		mPlayer->setPosition(pos);
-		mPlayer->resumeAnimation();
-		mScene->getCamera()->position.set(pos.x, pos.y, pos.z + 1);
-	}
-	else
-	{
-		mPlayer->stopAnimation();
+		if (getServer()->getKeyStatus('W'))
+		{
+			//mScene->getCamera()->translate2D(0, dt * 3);
+			vector2f v = vector2f(0, dt * 5).getRotated(-myDegToRad(mScene->getCamera()->rotation.z));
+			vector3f pos = mPlayer->getPosition();
+			pos.x += v.x;
+			pos.y += v.y;
+			pos.z = mScene->getTerrain()->pickHeight(pos.x, pos.y);
+			mPlayer->setPosition(pos);
+			mPlayer->resumeAnimation();
+			//mScene->getCamera()->position.set(pos.x, pos.y, pos.z + 1);
+		}
+		else
+		{
+			mPlayer->stopAnimation();
+		}
 	}
 	mWorldPoint = mScene->getWorldPoint(mMouseX, mMouseY);
 	mScene->update(dt);
@@ -162,7 +174,7 @@ void TestClient::onDraw()
 {
 	//sky
 	mView->beginGui();
-	mSkyTexture->drawImage(0, 0, mView->getWidth(), mView->getHeight(), 0, 0, 1, 1);
+	//mSkyTexture->drawImage(0, 0, mView->getWidth(), mView->getHeight(), 0, 0, 1, 1);
 	mView->endGui();
 	// draw game
 	mView->beginScene3D();
@@ -194,7 +206,7 @@ void TestClient::onMouseMoveEvent(int x, int y)
 	{
 		mCursorObjct->setPosition(mWorldPoint);
 	}
-	//if (mButtonState[GLFW_MOUSE_BUTTON_MIDDLE] == GLFW_PRESS)
+	if (mButtonState[GLFW_MOUSE_BUTTON_MIDDLE] == GLFW_PRESS)
 	{
 		float fx = mSceneSize.x / (float)mView->getWidth();
 		float fy = mSceneSize.y / (float)mView->getHeight();

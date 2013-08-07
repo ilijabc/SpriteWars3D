@@ -62,6 +62,7 @@ public:
 
 private:
 	void computeVerticeNormal(int vx, int vy);
+	void setGLVertex(int tx, int ty, int tex_index);
 
 private:
 	STerrainVertex 	mVertexMap[TERRAIN_MAX_SIZE + 1][TERRAIN_MAX_SIZE + 1];

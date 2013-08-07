@@ -161,26 +161,10 @@ void GLTerrain::render(float x1, float y1, float x2, float y2)
 			{
 				if (mFaceMap[tx][ty].flags != 1)
 				{
-					//A
-					glColor4fv(mVertexMap[tx][ty].color.getPtr());
-					glNormal3fv(mVertexMap[tx][ty].normal.getPtr());
-					glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.AA.y);
-					glVertex3f(tx, ty, mVertexMap[tx][ty].height);
-					//B
-					glColor4fv(mVertexMap[tx+1][ty].color.getPtr());
-					glNormal3fv(mVertexMap[tx+1][ty].normal.getPtr());
-					glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.AA.y);
-					glVertex3f(tx+1, ty, mVertexMap[tx+1][ty].height);
-					//C
-					glColor4fv(mVertexMap[tx+1][ty+1].color.getPtr());
-					glNormal3fv(mVertexMap[tx+1][ty+1].normal.getPtr());
-					glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.BB.y);
-					glVertex3f(tx+1, ty+1, mVertexMap[tx+1][ty+1].height);
-					//D
-					glColor4fv(mVertexMap[tx][ty+1].color.getPtr());
-					glNormal3fv(mVertexMap[tx][ty+1].normal.getPtr());
-					glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.BB.y);
-					glVertex3f(tx, ty+1, mVertexMap[tx][ty+1].height);
+					setGLVertex(tx, ty, 0);
+					setGLVertex(tx + 1, ty, 1);
+					setGLVertex(tx + 1, ty + 1, 2);
+					setGLVertex(tx, ty + 1, 3);
 				}
 			}
 		}
@@ -218,7 +202,27 @@ void GLTerrain::render(float x1, float y1, float x2, float y2)
 
 }
 
-
+void GLTerrain::setGLVertex(int tx, int ty, int tex_index)
+{
+	glColor4fv(mVertexMap[tx][ty].color.getPtr());
+	glNormal3fv(mVertexMap[tx][ty].normal.getPtr());
+	switch (tex_index)
+	{
+	case 0:
+		glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.AA.y);
+		break;
+	case 1:
+		glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.AA.y);
+		break;
+	case 2:
+		glTexCoord2f(mFaceMap[tx][ty].texsrc.BB.x, mFaceMap[tx][ty].texsrc.BB.y);
+		break;
+	case 3:
+		glTexCoord2f(mFaceMap[tx][ty].texsrc.AA.x, mFaceMap[tx][ty].texsrc.BB.y);
+		break;
+	}
+	glVertex3f(tx, ty, mVertexMap[tx][ty].height);
+}
 
 void GLTerrain::buildNormals()
 {
